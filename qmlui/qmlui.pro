@@ -53,6 +53,7 @@ HEADERS += \
     showmanager.h \
     treemodel.h \
     treemodelitem.h \
+    videocanvas.h \
     videoeditor.h \
     videoprovider.h
 
@@ -84,6 +85,7 @@ SOURCES += main.cpp \
     showmanager.cpp \
     treemodel.cpp \
     treemodelitem.cpp \
+    videocanvas.cpp \
     videoeditor.cpp \
     videoprovider.cpp
 
@@ -140,7 +142,8 @@ lupdate_only {
         qml/inputoutput/*.qml \
         qml/popup/*.qml \
         qml/showmanager/*.qml \
-        qml/virtualconsole/*.qml
+        qml/virtualconsole/*.qml \
+        qml/videocanvas/*.qml
 }
 
 TRANSLATIONS += \

@@ -33,6 +33,7 @@ class FixtureBrowser;
 class FixtureManager;
 class ContextManager;
 class VirtualConsole;
+class VideoCanvas;
 class FunctionManager;
 class QXmlStreamReader;
 class FixtureGroupEditor;
@@ -115,7 +116,8 @@ public:
         AC_VCEditing       = (1 << 3),
         AC_SimpleDesk      = (1 << 4),
         AC_ShowManager     = (1 << 5),
-        AC_InputOutput     = (1 << 6)
+        AC_InputOutput     = (1 << 6),
+        AC_VideoCanvas     = (1 << 7)
     };
     Q_ENUM(AccessControl)
 
@@ -177,6 +179,7 @@ private:
     FunctionManager *m_functionManager;
     InputOutputManager *m_ioManager;
     VirtualConsole *m_virtualConsole;
+    VideoCanvas *m_videoCanvas;
     ShowManager *m_showManager;
     ActionManager *m_actionManager;
     VideoProvider *m_videoProvider;

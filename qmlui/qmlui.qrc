@@ -231,6 +231,10 @@
     <file alias="ShowItem.qml">qml/showmanager/ShowItem.qml</file>
     <file alias="HeaderAndCursor.qml">qml/showmanager/HeaderAndCursor.qml</file>
 
+    <!-- Video Canvas -->
+    <file alias="VideoCanvas.qml">qml/videocanvas/VideoCanvas.qml</file>
+    <file alias="VideoCanvasRightPanel.qml">qml/videocanvas/VideoCanvasRightPanel.qml</file>
+
     <!-- JavaScript helpers -->
     <file alias="CanvasDrawFunctions.js">js/CanvasDrawFunctions.js</file>
     <file alias="FixtureDrag.js">js/FixtureDrag.js</file>

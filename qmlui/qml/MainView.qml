@@ -52,6 +52,8 @@ Rectangle
             item = smEntry
         else if (ctx === "IOMGR")
             item = ioEntry
+        else if (ctx === "VIDEOCANVAS")
+            item = videoCanvasEntry
 
         if (item)
         {
@@ -223,6 +225,24 @@ Rectangle
                 {
                     ioEntry.visible = false
                     contextManager.detachContext("IOMGR")
+                }
+            }
+            MenuBarEntry
+            {
+                id: videoCanvasEntry
+                visible: qlcplus.accessMask & App.AC_VideoCanvas
+                imgSource: "qrc:/videocanvas.svg"
+                entryText: qsTr("Video Canvas")
+                ButtonGroup.group: menuBarGroup
+                onCheckedChanged:
+                {
+                    if (checked == true)
+                        switchToContext("IOMGR", "qrc:/VideoCanvas.qml")
+                }
+                onRightClicked:
+                {
+                    ioEntry.visible = false
+                    contextManager.detachContext("VIDEOCANVAS")
                 }
             }
             Rectangle

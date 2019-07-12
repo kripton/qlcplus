@@ -45,6 +45,7 @@
 #include "functionmanager.h"
 #include "fixturegroupeditor.h"
 #include "inputoutputmanager.h"
+#include "videocanvas.h"
 
 #include "tardis.h"
 #include "networkmanager.h"
@@ -143,6 +144,9 @@ void App::startup()
     m_virtualConsole = new VirtualConsole(this, m_doc, m_contextManager);
     rootContext()->setContextProperty("virtualConsole", m_virtualConsole);
 
+    m_videoCanvas = new VideoCanvas(this, m_doc);
+    rootContext()->setContextProperty("videoCanvas", m_videoCanvas);
+
     m_showManager = new ShowManager(this, m_doc);
     rootContext()->setContextProperty("showManager", m_showManager);
 
@@ -160,6 +164,7 @@ void App::startup()
     m_contextManager->registerContext(m_virtualConsole);
     m_contextManager->registerContext(m_showManager);
     m_contextManager->registerContext(m_ioManager);
+    m_contextManager->registerContext(m_videoCanvas);
 
     // register an uncreatable type just to use the enums in QML
     qmlRegisterUncreatableType<ContextManager>("org.qlcplus.classes", 1, 0, "ContextManager", "Can't create a ContextManager!");
@@ -257,7 +262,7 @@ void App::setAccessMask(int mask)
 
 int App::defaultMask() const
 {
-    return AC_FixtureEditing | AC_FunctionEditing | AC_InputOutput |
+    return AC_FixtureEditing | AC_FunctionEditing | AC_InputOutput | AC_VideoCanvas |
             AC_ShowManager | AC_SimpleDesk | AC_VCControl | AC_VCEditing;
 }
 
