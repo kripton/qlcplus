@@ -51,7 +51,7 @@ Rectangle
     Rectangle
     {
         id: videoCanvasView
-        width: parent.width - (videoCanvas.editMode ? rightSidePanel.width : 0)
+        width: parent.width - rightSidePanel.width
         height: parent.height
         color: "transparent"
         clip: true
