@@ -37,6 +37,7 @@ class VideoEditor : public FunctionEditor
     Q_PROPERTY(QStringList screenList READ screenList CONSTANT)
     Q_PROPERTY(int screenIndex READ screenIndex WRITE setScreenIndex NOTIFY screenIndexChanged)
     Q_PROPERTY(bool fullscreen READ isFullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
+    Q_PROPERTY(bool canvas READ isCanvas WRITE setCanvas NOTIFY canvasChanged)
     Q_PROPERTY(bool looped READ isLooped WRITE setLooped NOTIFY loopedChanged)
     Q_PROPERTY(bool hasCustomGeometry READ hasCustomGeometry CONSTANT)
     Q_PROPERTY(QRect customGeometry READ customGeometry WRITE setCustomGeometry NOTIFY customGeometryChanged)
@@ -73,6 +74,10 @@ public:
     bool isFullscreen() const;
     void setFullscreen(bool fullscreen);
 
+    /** Get/Set the canvas flag of this Video function */
+    bool isCanvas() const;
+    void setCanvas(bool fullscreen);
+
     /** Get/Set looped attribute for this Video function */
     bool isLooped();
     void setLooped(bool looped);
@@ -100,6 +105,7 @@ signals:
     void mediaInfoChanged();
     void screenIndexChanged(int screenIndex);
     void fullscreenChanged(bool fullscreen);
+    void canvasChanged(bool canvas);
     void loopedChanged();
     void customGeometryChanged(QRect customGeometry);
     void rotationChanged(QVector3D rotation);

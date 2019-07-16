@@ -40,6 +40,10 @@ public:
     QQuickView *fullscreenContext();
     void setFullscreenContext(QQuickView *context);
 
+    /** Get/Set the shared canvas context */
+    QQuickView *canvasContext();
+    void setCanvasContext(QQuickView *context);
+
 protected slots:
     void slotFunctionAdded(quint32 id);
     void slotFunctionRemoved(quint32 id);
@@ -57,6 +61,8 @@ private:
     QMap<quint32, VideoContent *> m_videoMap;
     /** A single instance for fullscreen rendering shared between videos */
     QQuickView *m_fullscreenContext;
+    /** A single instance for rendering to the Video Canvas shared between videos */
+    QQuickView *m_canvasContext;
 };
 
 class VideoContent: public QObject

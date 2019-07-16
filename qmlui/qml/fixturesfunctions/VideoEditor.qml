@@ -229,18 +229,6 @@ Rectangle
         }
 
         // row 7
-        RobotoText { label: qsTr("Output screen"); height: UISettings.listItemHeight }
-        CustomComboBox
-        {
-            id: screenCombo
-            height: UISettings.listItemHeight
-            Layout.fillWidth: true
-            model: videoEditor.screenList
-            currentIndex: videoEditor.screenIndex
-            onCurrentIndexChanged: videoEditor.screenIndex = currentIndex
-        }
-
-        // row 8
         RobotoText { label: qsTr("Output mode"); height: UISettings.listItemHeight }
         RowLayout
         {
@@ -254,13 +242,27 @@ Rectangle
                 implicitHeight: implicitWidth
                 ButtonGroup.group: outputModeGroup
                 checked: !videoEditor.fullscreen
-                onClicked: if (checked) videoEditor.fullscreen = false
+                onClicked: {
+                    if (checked) {
+                        videoEditor.fullscreen = false
+                        videoEditor.canvas = false
+                    }
+                }
             }
             RobotoText
             {
                 height: UISettings.listItemHeight
                 label: qsTr("Windowed")
             }
+        }
+
+        // filler
+        Rectangle { Layout.fillWidth: true }
+
+        // row 8
+        RowLayout
+        {
+            height: UISettings.listItemHeight
 
             CustomCheckBox
             {
@@ -268,7 +270,12 @@ Rectangle
                 implicitHeight: implicitWidth
                 ButtonGroup.group: outputModeGroup
                 checked: videoEditor.fullscreen
-                onClicked: if (checked) videoEditor.fullscreen = true
+                onClicked: {
+                    if (checked) {
+                        videoEditor.fullscreen = true
+                        videoEditor.canvas = false
+                    }
+                }
             }
             RobotoText
             {
@@ -277,11 +284,70 @@ Rectangle
             }
         }
 
+        // filler
+        Rectangle { Layout.fillWidth: true }
+
         // row 9
-        RobotoText { label: qsTr("Geometry"); height: UISettings.listItemHeight }
         RowLayout
         {
             height: UISettings.listItemHeight
+
+            CustomCheckBox
+            {
+                implicitWidth: UISettings.iconSizeMedium
+                implicitHeight: implicitWidth
+                ButtonGroup.group: outputModeGroup
+                checked: videoEditor.canvas
+                onClicked: {
+                    if (checked) {
+                        videoEditor.fullscreen = false
+                        videoEditor.canvas = true
+                        custGeomCheck.checked = true
+
+                        // If no specific geometry has been set, use mediaInfo.Resolution
+                        if (videoEditor.customGeometry.width == 0 && videoEditor.customGeometry.height == 0) {
+                            geomXSpin.value = 0
+                            geomYSpin.value = 0
+                            geomWSpin.value = mediaInfo.Resolution.width
+                            geomHSpin.value = mediaInfo.Resolution.height
+                        }
+                    }
+                }
+            }
+            RobotoText
+            {
+                height: UISettings.listItemHeight
+                label: qsTr("Video Canvas")
+            }
+        }
+
+        // row 10
+        RobotoText {
+            visible: !videoEditor.canvas
+            label: qsTr("Output screen")
+            height: UISettings.listItemHeight
+        }
+        CustomComboBox
+        {
+            id: screenCombo
+            height: UISettings.listItemHeight
+            Layout.fillWidth: true
+            visible: !videoEditor.canvas
+            model: videoEditor.screenList
+            currentIndex: videoEditor.screenIndex
+            onCurrentIndexChanged: videoEditor.screenIndex = currentIndex
+        }
+
+        // row 11
+        RobotoText {
+            label: qsTr("Geometry")
+            height: UISettings.listItemHeight
+            visible: !videoEditor.canvas
+        }
+        RowLayout
+        {
+            height: UISettings.listItemHeight
+            visible: !videoEditor.canvas
 
             ButtonGroup { id: geometryGroup }
 
@@ -331,7 +397,7 @@ Rectangle
             }
         }
 
-        // row 10
+        // row 12
         RobotoText
         {
             visible: custGeomCheck.checked
@@ -367,7 +433,7 @@ Rectangle
             }
         }
 
-        // row 11
+        // row 13
         RobotoText
         {
             visible: custGeomCheck.checked
@@ -403,7 +469,7 @@ Rectangle
             }
         }
 
-        // row 12
+        // row 14
         RobotoText
         {
             height: UISettings.listItemHeight
@@ -450,7 +516,7 @@ Rectangle
             }
         }
 
-        // row 13
+        // row 15
         RobotoText
         {
             height: UISettings.listItemHeight

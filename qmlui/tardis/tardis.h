@@ -138,6 +138,7 @@ public:
         VideoSetSource,
         VideoSetScreenIndex,
         VideoSetFullscreen,
+        VideoSetCanvas,
         VideoSetGeometry,
         VideoSetRotation,
         VideoSetLayer,

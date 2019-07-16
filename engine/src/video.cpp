@@ -29,6 +29,7 @@
 #define KXMLQLCVideoSource "Source"
 #define KXMLQLCVideoScreen "Screen"
 #define KXMLQLCVideoFullscreen "Fullscreen"
+#define KXMLQLCVideoCanvas "Canvas"
 #define KXMLQLCVideoGeometry "Geometry"
 #define KXMLQLCVideoRotation "Rotation"
 #define KXMLQLCVideoZIndex "ZIndex"
@@ -54,6 +55,7 @@ Video::Video(Doc* doc)
   , m_zIndex(1)
   , m_screen(0)
   , m_fullscreen(false)
+  , m_canvas(false)
 {
     setName(tr("New Video"));
     setRunOrder(Video::SingleShot);
@@ -303,6 +305,17 @@ void Video::setFullscreen(bool enable)
         return;
 
     m_fullscreen = enable;
+
+    emit changed(id());
+}
+
+void Video::setCanvas(bool enable)
+{
+    if (m_canvas == enable)
+        return;
+
+    m_canvas = enable;
+
     emit changed(id());
 }
 
@@ -314,6 +327,11 @@ qreal Video::intensity()
 bool Video::fullscreen()
 {
     return m_fullscreen;
+}
+
+bool Video::canvas()
+{
+    return m_canvas;
 }
 
 int Video::adjustAttribute(qreal fraction, int attributeId)
@@ -366,6 +384,8 @@ bool Video::saveXML(QXmlStreamWriter *doc)
         doc->writeAttribute(KXMLQLCVideoScreen, QString::number(m_screen));
     if (m_fullscreen == true)
         doc->writeAttribute(KXMLQLCVideoFullscreen, "1");
+    if (m_canvas == true)
+        doc->writeAttribute(KXMLQLCVideoCanvas, "1");
 #ifdef QMLUI
     if (m_customGeometry.isNull() == false)
     {
@@ -425,6 +445,13 @@ bool Video::loadXML(QXmlStreamReader &root)
                     setFullscreen(true);
                 else
                     setFullscreen(false);
+            }
+            if (attrs.hasAttribute(KXMLQLCVideoCanvas))
+            {
+                if (attrs.value(KXMLQLCVideoCanvas).toString() == "1")
+                    setCanvas(true);
+                else
+                    setCanvas(false);
             }
 #ifdef QMLUI
             if (attrs.hasAttribute(KXMLQLCVideoGeometry))

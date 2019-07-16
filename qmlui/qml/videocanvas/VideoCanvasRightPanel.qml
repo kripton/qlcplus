@@ -57,6 +57,7 @@ SidePanel
                 {
                     videoCanvas.editMode = checked
                     if (checked == true)
+                        // TODO: videoCanvasGeneralPropertis. Later: Per widget
                         loaderSource = "qrc:/VideoCanvasWidgetProperties.qml"
                     else
                         border.color = "#1D1D1D"

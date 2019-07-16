@@ -44,6 +44,7 @@ class Video : public Function
     Q_PROPERTY(QVector3D rotation READ rotation WRITE setRotation NOTIFY rotationChanged)
     Q_PROPERTY(int zIndex READ zIndex WRITE setZIndex NOTIFY zIndexChanged)
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen)
+    Q_PROPERTY(bool canvas READ canvas WRITE setCanvas)
 
     /*********************************************************************
      * Initialization
@@ -142,9 +143,13 @@ public:
     int screen();
     void setScreen(int index);
 
-    /** Get/Set the video to be rendered in windowed or fullscreen mode */
+    /** Get/Set the video to be rendered in fullscreen mode */
     bool fullscreen();
     void setFullscreen(bool enable);
+
+    /** Get/Set the video to be rendered in canvas mode */
+    bool canvas();
+    void setCanvas(bool enable);
 
     /** Get the current Video intensity */
     qreal intensity();
@@ -187,6 +192,8 @@ private:
     int m_screen;
     /** Flag that indicates if the video has to go fullscreen */
     bool m_fullscreen;
+    /** Flag that indicates if the video has to go to the canvas */
+    bool m_canvas;
 
     /*********************************************************************
      * Save & Load

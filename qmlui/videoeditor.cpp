@@ -182,6 +182,24 @@ void VideoEditor::setFullscreen(bool fullscreen)
     emit fullscreenChanged(fullscreen);
 }
 
+bool VideoEditor::isCanvas() const
+{
+    if (m_video != nullptr)
+        return m_video->canvas();
+
+    return false;
+}
+
+void VideoEditor::setCanvas(bool canvas)
+{
+    if (m_video == nullptr || m_video->canvas() == canvas)
+        return;
+
+    Tardis::instance()->enqueueAction(Tardis::VideoSetCanvas, m_video->id(), m_video->canvas(), canvas);
+    m_video->setCanvas(canvas);
+    emit canvasChanged(canvas);
+}
+
 bool VideoEditor::isLooped()
 {
     if (m_video != nullptr)
