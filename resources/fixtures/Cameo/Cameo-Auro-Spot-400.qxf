@@ -35,42 +35,42 @@
  <Channel Name="Colour Wheel 1">
   <Group Byte="0">Colour</Group>
   <Capability Min="0" Max="5">Colour off (open)</Capability>
-  <Capability Min="6" Max="13">Split colour Open-Red</Capability>
-  <Capability Min="14" Max="21">Red</Capability>
-  <Capability Min="22" Max="29">Split colour Red-Orange</Capability>
-  <Capability Min="30" Max="37">Orange</Capability>
-  <Capability Min="38" Max="45">Split colour Orange-Yellow</Capability>
-  <Capability Min="46" Max="53">Yellow</Capability>
-  <Capability Min="54" Max="61">Split colour Yellow-Green</Capability>
-  <Capability Min="62" Max="69">Green</Capability>
-  <Capability Min="70" Max="77">Split colour Green-Cyan</Capability>
-  <Capability Min="78" Max="85">Cyan</Capability>
-  <Capability Min="86" Max="93">Split colour Cyan-Blue</Capability>
-  <Capability Min="94" Max="101">Blue</Capability>
-  <Capability Min="102" Max="109">Split colour Blue-Magenta</Capability>
-  <Capability Min="110" Max="117">Magenta</Capability>
-  <Capability Min="118" Max="125">Split colour  Magenta-Open</Capability>
+  <Capability Min="6" Max="13" Preset="ColorDoubleMacro" Res1="#ffffff" Res2="#ff0000">Split colour Open-Red</Capability>
+  <Capability Min="14" Max="21" Preset="ColorMacro" Res1="#ff0000">Red</Capability>
+  <Capability Min="22" Max="29" Preset="ColorDoubleMacro" Res1="#ff0000" Res2="#ffaa00">Split colour Red-Orange</Capability>
+  <Capability Min="30" Max="37" Preset="ColorMacro" Res1="#ffaa00">Orange</Capability>
+  <Capability Min="38" Max="45" Preset="ColorDoubleMacro" Res1="#ffaa00" Res2="#ffff00">Split colour Orange-Yellow</Capability>
+  <Capability Min="46" Max="53" Preset="ColorMacro" Res1="#ffff00">Yellow</Capability>
+  <Capability Min="54" Max="61" Preset="ColorDoubleMacro" Res1="#ffff00" Res2="#00ff00">Split colour Yellow-Green</Capability>
+  <Capability Min="62" Max="69" Preset="ColorMacro" Res1="#00ff00">Green</Capability>
+  <Capability Min="70" Max="77" Preset="ColorDoubleMacro" Res1="#00ff00" Res2="#00ffff">Split colour Green-Cyan</Capability>
+  <Capability Min="78" Max="85" Preset="ColorMacro" Res1="#00ffff">Cyan</Capability>
+  <Capability Min="86" Max="93" Preset="ColorDoubleMacro" Res1="#00ffff" Res2="#0000ff">Split colour Cyan-Blue</Capability>
+  <Capability Min="94" Max="101" Preset="ColorMacro" Res1="#0000ff">Blue</Capability>
+  <Capability Min="102" Max="109" Preset="ColorDoubleMacro" Res1="#0000ff" Res2="#ff00ff">Split colour Blue-Magenta</Capability>
+  <Capability Min="110" Max="117" Preset="ColorMacro" Res1="#ff00ff">Magenta</Capability>
+  <Capability Min="118" Max="125" Preset="ColorDoubleMacro" Res1="#ff00ff" Res2="#ffffff">Split colour Magenta-Open</Capability>
   <Capability Min="126" Max="128">Colour Wheel Stop</Capability>
   <Capability Min="129" Max="255">Colour Wheel Rotation slow -&gt; fast</Capability>
  </Channel>
  <Channel Name="Colour Wheel 2">
   <Group Byte="0">Colour</Group>
   <Capability Min="0" Max="5">Colour off (open)</Capability>
-  <Capability Min="6" Max="13">Split colour Open-Amber</Capability>
-  <Capability Min="14" Max="21">Amber</Capability>
-  <Capability Min="22" Max="29">Split colour Amber-Yellow warm</Capability>
-  <Capability Min="30" Max="37">Yellow warm</Capability>
-  <Capability Min="38" Max="45">Split colour Yellow warm-Lavender</Capability>
-  <Capability Min="46" Max="53">Lavender</Capability>
-  <Capability Min="54" Max="61">Split colour Lavender-Lime</Capability>
-  <Capability Min="62" Max="69">Lime</Capability>
-  <Capability Min="70" Max="77">Split colour Lime-Turquoise</Capability>
-  <Capability Min="78" Max="85">Turquoise</Capability>
-  <Capability Min="86" Max="93">Split colour Turquoise-Warm White</Capability>
-  <Capability Min="94" Max="101">Warm White (CTO)</Capability>
-  <Capability Min="102" Max="109">Split colour Warm White-Cold White</Capability>
-  <Capability Min="110" Max="117">Cold White (CTB)</Capability>
-  <Capability Min="118" Max="125">Split colour Cold White-Open</Capability>
+  <Capability Min="6" Max="13" Preset="ColorDoubleMacro" Res1="#ffffff" Res2="#ffaa00">Split colour Open-Amber</Capability>
+  <Capability Min="14" Max="21" Preset="ColorMacro" Res1="#ffaa00">Amber</Capability>
+  <Capability Min="22" Max="29" Preset="ColorDoubleMacro" Res1="#ffe100" Res2="#ffd200">Split colour Amber-Yellow warm</Capability>
+  <Capability Min="30" Max="37" Preset="ColorMacro" Res1="#ffd200">Yellow warm</Capability>
+  <Capability Min="38" Max="45" Preset="ColorDoubleMacro" Res1="#ffd200" Res2="#aaaaff">Split colour Yellow warm-Lavender</Capability>
+  <Capability Min="46" Max="53" Preset="ColorMacro" Res1="#aaaaff">Lavender</Capability>
+  <Capability Min="54" Max="61" Preset="ColorDoubleMacro" Res1="#aaaaff" Res2="#aaff7f">Split colour Lavender-Lime</Capability>
+  <Capability Min="62" Max="69" Preset="ColorMacro" Res1="#aaff7f">Lime</Capability>
+  <Capability Min="70" Max="77" Preset="ColorDoubleMacro" Res1="#aaff7f" Res2="#00aaff">Split colour Lime-Turquoise</Capability>
+  <Capability Min="78" Max="85" Preset="ColorMacro" Res1="#00aaff">Turquoise</Capability>
+  <Capability Min="86" Max="93" Preset="ColorDoubleMacro" Res1="#00aaff" Res2="#fff0b9">Split colour Turquoise-Warm White</Capability>
+  <Capability Min="94" Max="101" Preset="ColorMacro" Res1="#fff0b9">Warm White (CTO)</Capability>
+  <Capability Min="102" Max="109" Preset="ColorDoubleMacro" Res1="#fff0b9" Res2="#dcf5ff">Split colour Warm White-Cold White</Capability>
+  <Capability Min="110" Max="117" Preset="ColorMacro" Res1="#dcf5ff">Cold White (CTB)</Capability>
+  <Capability Min="118" Max="125" Preset="ColorDoubleMacro" Res1="#dcf5ff" Res2="#ffffff">Split colour Cold White-Open</Capability>
   <Capability Min="126" Max="128">Colour Wheel Stop</Capability>
   <Capability Min="129" Max="255">Colour Wheel Rotation slow -&gt; fast</Capability>
  </Channel>
