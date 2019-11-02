@@ -28,6 +28,7 @@
 #if defined(Q_WS_X11) || defined(Q_OS_LINUX) || defined(Q_OS_OSX)
   #include "nanodmx.h"
   #include "euroliteusbdmxpro.h"
+  #include "dmxovernow.h"
 #endif
 #include "stageprofi.h"
 #include "vinceusbdmx512.h"
@@ -209,6 +210,11 @@ QList<DMXUSBWidget *> DMXUSBWidget::widgets()
                  iface->productID() == DMXInterface::EUROLITEPID)
         {
             widgetList << new EuroliteUSBDMXPro(iface, output_id++);
+        }
+        else if (iface->vendorID() == DMXInterface::SILICONLABSVID &&
+                 iface->productID() == DMXInterface::CP2102PID)
+        {
+            widgetList << new DMXoverNOW(iface, output_id++);
         }
 #endif
         else

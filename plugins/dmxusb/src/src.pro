@@ -7,7 +7,7 @@ TARGET   = dmxusb
 CONFIG      += plugin
 QT          += gui core
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-INCLUDEPATH += ../../interfaces
+INCLUDEPATH += ../../interfaces ../../../engine/src
 
 # Uncomment the following to use QtSerialPort before
 # any other platform specific library
@@ -97,7 +97,7 @@ HEADERS += dmxusb.h \
            vinceusbdmx512.h \
            dmxinterface.h
 
-unix|macx: HEADERS += nanodmx.h euroliteusbdmxpro.h
+unix|macx: HEADERS += nanodmx.h euroliteusbdmxpro.h dmxovernow.h
 
 SOURCES += ../../interfaces/qlcioplugin.cpp
 SOURCES += dmxinterface.cpp \
@@ -114,7 +114,7 @@ INCLUDEPATH += ../../midi/src/common
 HEADERS += ../../midi/src/common/midiprotocol.h
 SOURCES += ../../midi/src/common/midiprotocol.cpp
 
-unix|macx: SOURCES += nanodmx.cpp euroliteusbdmxpro.cpp
+unix|macx: SOURCES += nanodmx.cpp euroliteusbdmxpro.cpp dmxovernow.cpp
 
 CONFIG(qtserial) {
     SOURCES += qtserial-interface.cpp
