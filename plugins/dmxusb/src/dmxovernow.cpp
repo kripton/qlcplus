@@ -41,13 +41,24 @@ DMXUSBWidget::Type DMXoverNOW::type() const
     return DMXUSBWidget::DMXoverNow;
 }
 
-bool DMXoverNOW::checkReply(uint8_t request)
+bool DMXoverNOW::checkReply(uint8_t request, QByteArray* decoded)
 {
     QByteArray reply = m_file.readAll();
+    *decoded = QByteArray::fromBase64(reply);
 
-    qDebug() << Q_FUNC_INFO << "Reply: " << QString::number(reply[0], 16) << QString::number(reply[1], 16);
+    qDebug() << Q_FUNC_INFO << "Reply Length: " << reply.length() << "Decoded length:" << decoded->length();
 
-    // TODO: Base64 decode and check second byte's first bit
+    // Step 1: Check if the decoded length is large enough
+    if (decoded->length() < 2)
+        return false;
+
+    // Step 2: Check if the reply matched the last request
+    if ((uint8_t)((*decoded)[0]) != (request | 0x80))
+        return false;
+
+    // Step 3: Check if an error was reported by the master
+    if ((uint8_t)((*decoded)[1] & 0x80) != 0)
+        return false;
 
     return true;
 }
@@ -99,8 +110,6 @@ bool DMXoverNOW::open(quint32 line, bool input)
     else
         m_file.setFileName(ttyName);
 
-    // Could we set the baudrate here?
-
     m_file.unsetError();
     if (m_file.open(QIODevice::ReadWrite | QIODevice::Unbuffered) == false)
     {
@@ -109,8 +118,8 @@ bool DMXoverNOW::open(quint32 line, bool input)
         return false;
     }
 
+    // Set baudrate
     struct termios2 tio;
-
     ioctl(m_file.handle(), TCGETS2, &tio);
     tio.c_cflag &= ~CBAUD;
     tio.c_cflag |= BOTHER;
@@ -120,22 +129,51 @@ bool DMXoverNOW::open(quint32 line, bool input)
 
     QByteArray initSequence;
     QByteArray b64encoded;
+    QByteArray decodedReply;
 
-    /* Check connection */
-    initSequence.append((char)1);
-    initSequence.append((char)0);
-    initSequence.append("QLC+ ");
-    initSequence.append(APPVERSION);
-    initSequence.append((char)0);
-    b64encoded = initSequence.toBase64();
-    b64encoded.append((char)0);
-    if (m_file.write(b64encoded) == true)
+    // Init the device
+    initSequence.append((char)1);      // Command 0x01 = Init
+    initSequence.append((char)0);      // Protocol version 0
+    initSequence.append("QLC+ ");      // Our app's name
+    initSequence.append(APPVERSION);   // and version
+
+    // Fill the rest with spaces
+    while (initSequence.length() < 18)
     {
-        if (checkReply(1) == false)
-            qWarning() << Q_FUNC_INFO << name() << "Initialization failed";
+        initSequence.append((char)(0x20));
+    }
+
+    // Base64-encode the request
+    b64encoded = initSequence.toBase64();
+
+    // Terminate it with a NULL-byte
+    b64encoded.append((char)0);
+
+    // And send it
+    if (m_file.write(b64encoded) > 1)
+    {
+        // Give the device some time to answer
+        usleep(25000);
+
+        if (checkReply(0x01, &decodedReply) == false)
+        {
+            qWarning() << Q_FUNC_INFO << name() << "Initialization READ failed";
+        }
+        else if (decodedReply.length() >= 52)
+        {
+            qDebug() << "Initialization SUCCEEDED :D. Device data:\n" <<
+                        "\tFirmware version:\t" << QString(decodedReply.mid(3,8)) << "\n" <<
+                        "\tRadio channel:\t" << qint8(decodedReply[11]) << "\n" <<
+                        "\tUnique ID:\t" << qint64(decodedReply[28]) << "\n" <<
+                        "\tNetwork name:\t" << QString(decodedReply.mid(36,16));
+        }
+        else
+        {
+            qDebug() << "Initialization SUCCEEDED :D";
+        }
     }
     else
-        qWarning() << Q_FUNC_INFO << name() << "Initialization failed";
+        qWarning() << Q_FUNC_INFO << name() << "Initialization WRITE failed";
 
     // start the output thread
     start();
@@ -200,22 +238,6 @@ bool DMXoverNOW::writeUniverse(quint32 universe, quint32 output, const QByteArra
 
     //qDebug() << "Writing universe...";
 
-    /*
-    QByteArray sendData;
-    sendData.append((char)0x21); // command
-    sendData.append((char)0); // universeID
-    sendData.append(data);
-
-    QByteArray b64encoded;
-    b64encoded.append(sendData.toBase64());
-    b64encoded.append((char)0);
-
-    if (m_file.write(sendData.toBase64()) <= 0)
-    {
-        qWarning() << Q_FUNC_INFO << name() << "will not accept DMX data";
-    }
-    */
-
     if (m_outputLines[0].m_universeData.size() == 0)
         m_outputLines[0].m_universeData.append(data);
     else
@@ -256,11 +278,18 @@ void DMXoverNOW::run()
         sendData.append((char)0); // universeID
         sendData.append(m_outputLines[0].m_universeData);
 
+        while (sendData.size() < 514)
+        {
+            sendData.append((char)0);
+        }
+
         QByteArray b64encoded;
         b64encoded.append(sendData.toBase64());
         b64encoded.append((char)0);
 
-        if (m_file.write(sendData.toBase64()) <= 0)
+        //qDebug() << Q_FUNC_INFO << "DATA: " << b64encoded;
+
+        if (m_file.write(b64encoded) <= 0)
         {
             qWarning() << Q_FUNC_INFO << name() << "will not accept DMX data";
             continue;

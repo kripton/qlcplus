@@ -68,7 +68,7 @@ protected:
     void run();
 
 private:
-    bool checkReply(uint8_t request);
+    bool checkReply(uint8_t request, QByteArray* decoded);
     QString getDeviceName();
 
 private:
