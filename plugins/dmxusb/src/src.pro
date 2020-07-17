@@ -11,7 +11,7 @@ INCLUDEPATH += ../../interfaces
 
 # Uncomment the following to use QtSerialPort before
 # any other platform specific library
-#CONFIG += qtserial
+CONFIG += qtserial
 
 # Use FTD2XX by default only in Windows.
 win32 {
