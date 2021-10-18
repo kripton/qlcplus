@@ -25,6 +25,7 @@
 
 #include "configurehid.h"
 #include "hiddmxdevice.h"
+#include "hidedpdevice.h"
 #include "hidjsdevice.h"
 #include "hidapi.h"
 #include "hidplugin.h"
@@ -273,6 +274,16 @@ void HIDPlugin::rescanDevices()
         {
             /* Device is a USB DMX Interface, add it */
             dev = new HIDDMXDevice(this, line++,
+                                   QString::fromWCharArray(cur_dev->manufacturer_string) + " " +
+                                   QString::fromWCharArray(cur_dev->product_string),
+                                   QString(cur_dev->path));
+            addDevice(dev);
+        }
+        else if((cur_dev->vendor_id == HID_EDP_INTERFACE_VENDOR_ID
+                && cur_dev->product_id == HID_EDP_INTERFACE_PRODUCT_ID))
+        {
+            /* Device is a USB EDP Interface, add it */
+            dev = new HIDEDPDevice(this, line++,
                                    QString::fromWCharArray(cur_dev->manufacturer_string) + " " +
                                    QString::fromWCharArray(cur_dev->product_string),
                                    QString(cur_dev->path));

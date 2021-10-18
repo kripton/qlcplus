@@ -21,7 +21,8 @@ HEADERS += configurehid.h \
            hiddevice.h \
            hidplugin.h \
            hidjsdevice.h \
-           hiddmxdevice.h
+           hiddmxdevice.h \
+           hidedpdevice.h
 
 unix:!macx:HEADERS += linux/hidlinuxjoystick.h
 win32:HEADERS += win32/hidwindowsjoystick.h
@@ -35,7 +36,8 @@ SOURCES += configurehid.cpp \
            hiddevice.cpp \
            hidplugin.cpp \
            hidjsdevice.cpp \
-           hiddmxdevice.cpp
+           hiddmxdevice.cpp \
+           hidedpdevice.cpp
 
 unix:!macx:SOURCES += linux/hidapi.cpp linux/hidlinuxjoystick.cpp
 win32:SOURCES += win32/hidapi.cpp win32/hidwindowsjoystick.cpp
