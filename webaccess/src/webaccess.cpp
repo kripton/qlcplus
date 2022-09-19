@@ -17,6 +17,7 @@
   limitations under the License.
 */
 
+#include <QBuffer>
 #include <QDebug>
 #include <QProcess>
 #include <QSettings>
@@ -982,6 +983,32 @@ QString WebAccess::getButtonHTML(VCButton *btn)
     else if (btn->state() == VCButton::Monitoring)
         onCSS = "border: 3px solid #FFAA00;";
 
+    // Default: A button with a solid color
+    QString bg = "background-color: " + btn->backgroundColor().name() + "; ";
+
+    // Check for a background image and convert it to a PNG data-URL if so
+    if (!btn->getBackgroundImage().isNull())
+    {
+        QByteArray bytes;
+        QBuffer buffer(&bytes);
+        buffer.open(QIODevice::WriteOnly);
+        btn->getBackgroundImage().save(&buffer, "PNG");
+        QString bgImageData = QString("data:image/png;base64,") + bytes.toBase64();
+        /* The scaling is quite tricky and not yet implemented properly.
+         * Observed Qt behaviour:
+         * - Images are never scaled up to fill the button
+         * - Images are cropped when only one edge of the button is smaller
+         *   than the image
+         * - Images are scaled down to "cover" the button when both edges of
+         *   the button are smaller than the image
+         * Current HTML behaviour: Scale the image to fill the button. Doesn't
+         * work nicely with large images in small buttons
+         */
+        bg = "background-image: url(" + bgImageData + ") ; " +
+             "background-size: " + QString::number(btn->width()) + "px " +
+             QString::number(btn->height()) + "px; ";
+    }
+
     QString str = "<div class=\"vcbutton-wrapper\" style=\""
             "left: " + QString::number(btn->x()) + "px; "
             "top: " + QString::number(btn->y()) + "px;\">\n";
@@ -993,7 +1020,7 @@ QString WebAccess::getButtonHTML(VCButton *btn)
             "width: " + QString::number(btn->width()) + "px; "
             "height: " + QString::number(btn->height()) + "px; "
             "color: " + btn->foregroundColor().name() + "; "
-            "background-color: " + btn->backgroundColor().name() + "; " + onCSS + "\">" +
+            "" + bg + onCSS + "\">" +
             btn->caption() + "</a>\n</div>\n";
 
     connect(btn, SIGNAL(stateChanged(int)),

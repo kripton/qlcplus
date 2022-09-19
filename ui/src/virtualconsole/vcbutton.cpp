@@ -186,7 +186,7 @@ void VCButton::editProperties()
 }
 
 /*****************************************************************************
- * Background color
+ * Background color && image
  *****************************************************************************/
 
 void VCButton::setBackgroundImage(const QString& path)
@@ -195,6 +195,11 @@ void VCButton::setBackgroundImage(const QString& path)
     m_backgroundImage = path;
     m_doc->setModified();
     update();
+}
+
+QPixmap VCButton::getBackgroundImage()
+{
+    return m_bgPixmap;
 }
 
 void VCButton::setBackgroundColor(const QColor& color)

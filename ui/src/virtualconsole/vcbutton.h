@@ -107,6 +107,7 @@ public:
 public:
     /** Set the button's background image */
     void setBackgroundImage(const QString& path);
+    QPixmap getBackgroundImage();
 
 protected:
     QPixmap m_bgPixmap;
